@@ -1,6 +1,6 @@
 # Code Metrics - CLI
 
-Computes complexity in TypeScript / JavaScript / Lua files.
+Computes complexity in TypeScript / JavaScript files.
 
 # Complexity calculation
 

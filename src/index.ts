@@ -16,7 +16,7 @@ export function run() {
     let { threshold, pattern, config } = program as unknown as { threshold: number, pattern: string, config: string }
 
     threshold = threshold || 0;
-    pattern = pattern || "**/*.{ts,tsx,js,jsx,lua}";
+    pattern = pattern || "**/*.{ts,tsx,js,jsx}";
     const configFilePromise = config ? Promise.resolve(path.resolve(process.cwd(), config)) : findUp('codemetrics.config.js');
     const configPromise = configFilePromise.then(configFile => configFile ? require(configFile) : {});
     const result = new Map<string, number>();
