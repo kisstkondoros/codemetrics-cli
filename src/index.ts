@@ -41,8 +41,8 @@ export function run() {
 
                 const sorted = new Map([...result.entries()].sort((a, b) => a[1] - b[1]));
 
-                sorted.forEach((key, value) => {
-                    console.log(key, value);
+                sorted.forEach((lineNumber, filePath) => {
+                    console.log(`${filePath}:${lineNumber}`);
                 })
 
             })
