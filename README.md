@@ -45,7 +45,12 @@ The file must have a single export, the configuration itself for which typescrip
 ```
   -t, --threshold <number>  Minimum complexity to be shown
   -c, --config <string>     Path to the config file
+  -l, --lint                Exit with non-zero on issues
   -p, --pattern <string>    Glob pattern
 ```
 
 You can also use `codemetrics-cli --help` to get the list of the possible options.
+
+## Contributions
+
+- Add lint option to `fail` output when threshold not met - by @kopach
