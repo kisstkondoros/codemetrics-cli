@@ -5,7 +5,7 @@ import { MetricsParser, MetricsConfiguration } from "tsmetrics-core";
 import { ScriptTarget } from "typescript";
 import glob from "glob";
 import findUp from 'find-up';
-import program from 'commander';
+import { program } from 'commander';
 
 export function run() {
     program
@@ -14,7 +14,9 @@ export function run() {
         .option('-l, --lint', 'Exit with non-zero on issues')
         .option('-p, --pattern <string>', 'Glob pattern').parse(process.argv);
 
-    let { threshold, pattern, config, lint } = program as unknown as { threshold: number, pattern: string, config: string, lint: boolean }
+    const options = program.opts();
+
+    let { threshold, pattern, config, lint } = options as { threshold: number, pattern: string, config: string, lint: boolean }
 
     threshold = threshold || 0;
     pattern = pattern || "**/*.{ts,tsx,js,jsx}";
