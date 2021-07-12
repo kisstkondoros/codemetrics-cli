@@ -11,9 +11,10 @@ export function run() {
     program
         .option('-t, --threshold <number>', 'Minimum complexity to be shown')
         .option('-c, --config <string>', 'Path to the config file')
+        .option('-l, --lint', 'Exit with non-zero on issues')
         .option('-p, --pattern <string>', 'Glob pattern').parse(process.argv);
 
-    let { threshold, pattern, config } = program as unknown as { threshold: number, pattern: string, config: string }
+    let { threshold, pattern, config, lint } = program as unknown as { threshold: number, pattern: string, config: string, lint: boolean }
 
     threshold = threshold || 0;
     pattern = pattern || "**/*.{ts,tsx,js,jsx}";
@@ -44,6 +45,10 @@ export function run() {
                 sorted.forEach((key, value) => {
                     console.log(key, value);
                 })
+
+                if(lint && sorted.size > 0) {
+                    process.exit(1);
+                }
 
             })
         }).catch(e => {
