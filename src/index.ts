@@ -12,7 +12,7 @@ export function run() {
         .option('-t, --threshold <number>', 'Minimum complexity to be shown')
         .option('-c, --config <string>', 'Path to the config file')
         .option('-l, --lint', 'Exit with non-zero on issues')
-        .option('-d, --deep', 'Show lover level complexity')
+        .option('-d, --deep', 'Show complexity results from top level nodes, rather than an aggregation per file')
         .option('-p, --pattern <string>', 'Glob pattern').parse(process.argv);
 
     const options = program.opts();
