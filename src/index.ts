@@ -12,11 +12,24 @@ export function run() {
         .option('-t, --threshold <number>', 'Minimum complexity to be shown')
         .option('-c, --config <string>', 'Path to the config file')
         .option('-l, --lint', 'Exit with non-zero on issues')
+        .option('-d, --deep', 'Show lover level complexity')
         .option('-p, --pattern <string>', 'Glob pattern').parse(process.argv);
 
     const options = program.opts();
 
-    let { threshold, pattern, config, lint } = options as { threshold: number, pattern: string, config: string, lint: boolean }
+    let {
+        threshold,
+        pattern,
+        config,
+        lint = false,
+        deep = false,
+    } = options as {
+        threshold: number;
+        pattern: string;
+        config: string;
+        lint: boolean;
+        deep: boolean;
+    };
 
     threshold = threshold || 0;
     pattern = pattern || "**/*.{ts,tsx,js,jsx}";
@@ -34,18 +47,28 @@ export function run() {
                 follow: false,
                 ignore: ["**/node_modules/**"]
             }).then(files => {
-                files.forEach(p => {
-                    const metrics = MetricsParser.getMetrics(p, config, ScriptTarget.Latest);
-                    const complexity = metrics.metrics.getCollectedComplexity();
-                    if (threshold <= complexity) {
-                        result.set(p, complexity);
+                files.forEach(filePath => {
+                    const { metrics } = MetricsParser.getMetrics(filePath, config, ScriptTarget.Latest);
+                    const fileLevelComplexity = metrics.getCollectedComplexity();
+
+                    if (threshold >= fileLevelComplexity) return
+
+                    if (deep) {
+                        metrics.children.forEach((child) => {
+                            const topLevelChildComplexity = child.getCollectedComplexity()
+                            if (threshold <= topLevelChildComplexity) {
+                                result.set(`${filePath}:${child.line}`, topLevelChildComplexity);
+                            }
+                        })
+                    } else {
+                        result.set(filePath, fileLevelComplexity)
                     }
                 });
 
                 const sorted = new Map([...result.entries()].sort((a, b) => a[1] - b[1]));
 
-                sorted.forEach((key, value) => {
-                    console.log(key, value);
+                sorted.forEach((complexity, filePath) => {
+                    console.log(complexity, filePath);
                 })
 
                 if(lint && sorted.size > 0) {
