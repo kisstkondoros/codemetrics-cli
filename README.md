@@ -46,6 +46,7 @@ The file must have a single export, the configuration itself for which typescrip
   -t, --threshold <number>  Minimum complexity to be shown
   -c, --config <string>     Path to the config file
   -l, --lint                Exit with non-zero on issues
+  -d  --deep                Show complexity results from top level nodes, rather than an aggregation per file
   -p, --pattern <string>    Glob pattern
 ```
 
