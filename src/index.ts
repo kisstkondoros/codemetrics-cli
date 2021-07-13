@@ -51,17 +51,17 @@ export function run() {
                     const { metrics } = MetricsParser.getMetrics(filePath, config, ScriptTarget.Latest);
                     const fileLevelComplexity = metrics.getCollectedComplexity();
 
-                    if (threshold >= fileLevelComplexity) return
+                    if (threshold >= fileLevelComplexity) return;
 
                     if (deep) {
                         metrics.children.forEach((child) => {
-                            const topLevelChildComplexity = child.getCollectedComplexity()
+                            const topLevelChildComplexity = child.getCollectedComplexity();
                             if (threshold <= topLevelChildComplexity) {
                                 result.set(`${filePath}:${child.line}`, topLevelChildComplexity);
                             }
                         })
                     } else {
-                        result.set(filePath, fileLevelComplexity)
+                        result.set(filePath, fileLevelComplexity);
                     }
                 });
 
