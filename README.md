@@ -55,3 +55,4 @@ You can also use `codemetrics-cli --help` to get the list of the possible option
 ## Contributions
 
 - Add lint option to `fail` output when threshold not met - by @kopach
+- Introduce deep complexity comparison (per top level function) - by @kopach
